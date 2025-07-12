@@ -75,6 +75,12 @@ function setupUnitOptions() {
   const category = document.getElementById("category");
   category.addEventListener("change", updateUnits);
   updateUnits(); // Initial
+
+  // Add event listeners for conversion
+  document.getElementById("convertBtn")?.addEventListener("click", convertUnit);
+  document.getElementById("inputValue")?.addEventListener("input", convertUnit);
+  document.getElementById("fromUnit")?.addEventListener("change", convertUnit);
+  document.getElementById("toUnit")?.addEventListener("change", convertUnit);
 }
 
 function updateUnits() {
@@ -108,29 +114,27 @@ function convertUnit() {
   const val = parseFloat(document.getElementById("inputValue").value);
   const result = document.getElementById("result");
 
-  if (!val && val !== 0) {
+  if (isNaN(val)) {
     result.textContent = "Please enter a valid number.";
     result.style.color = "#ff6b6b";
     return;
   }
 
-  let finalValue;
-
   if (type === "temperature") {
-    finalValue = convertTemperature(val, from, to);
-  } else {
-    const base = val * units[type][from];
-    finalValue = base / units[type][to];
+    if (from === to) {
+      result.textContent = `🌡️ ${val} ${from} = ${val.toFixed(2)} ${to}`;
+      result.style.color = "#ff2b88";
+      return;
+    }
+    result.textContent = `🌡️ ${val} ${from} = ${convertTemperature(val, from, to).toFixed(2)} ${to}`;
+    result.style.color = "#ff2b88";
+    return;
   }
 
-  // Format: no unnecessary .0000
-  const formatted = Number.isInteger(finalValue)
-    ? finalValue
-    : parseFloat(finalValue.toFixed(4)).toString().replace(/\.?0+$/, "");
-
-  const icon = type === "temperature" ? "🌡️" : "🧮";
-  result.textContent = `${icon} ${val} ${from} = ${formatted} ${to}`;
-  result.style.color = type === "temperature" ? "#ff2b88" : "#aaff00";
+  const base = val * units[type][from];
+  const converted = base / units[type][to];
+  result.textContent = `🧮 ${val} ${from} = ${converted.toFixed(4)} ${to}`;
+  result.style.color = "#aaff00";
 }
 
 function convertTemperature(val, from, to) {
