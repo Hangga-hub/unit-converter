@@ -107,6 +107,14 @@ function updateUnits() {
   }
 }
 
+function formatNumber(num) {
+  // Show up to 4 significant digits, no trailing zeros
+  if (Math.abs(num) < 1) {
+    return parseFloat(num.toPrecision(4)).toString();
+  }
+  return parseFloat(num.toFixed(4)).toString();
+}
+
 function convertUnit() {
   const type = document.getElementById("category").value;
   const from = document.getElementById("fromUnit").value;
@@ -115,26 +123,23 @@ function convertUnit() {
   const result = document.getElementById("result");
 
   if (isNaN(val)) {
-    result.textContent = "Please enter a valid number.";
-    result.style.color = "#ff6b6b";
+    result.innerHTML = '<span class="result-error">Please enter a valid number.</span>';
     return;
   }
 
   if (type === "temperature") {
     if (from === to) {
-      result.textContent = `🌡️ ${val} ${from} = ${val.toFixed(2)} ${to}`;
-      result.style.color = "#ff2b88";
+      result.innerHTML = `<span class="result-temp">🌡️ <b>${formatNumber(val)}</b> ${from} = <b>${formatNumber(val)}</b> ${to}</span>`;
       return;
     }
-    result.textContent = `🌡️ ${val} ${from} = ${convertTemperature(val, from, to).toFixed(2)} ${to}`;
-    result.style.color = "#ff2b88";
+    const converted = convertTemperature(val, from, to);
+    result.innerHTML = `<span class="result-temp">🌡️ <b>${formatNumber(val)}</b> ${from} = <b>${formatNumber(converted)}</b> ${to}</span>`;
     return;
   }
 
   const base = val * units[type][from];
   const converted = base / units[type][to];
-  result.textContent = `🧮 ${val} ${from} = ${converted.toFixed(4)} ${to}`;
-  result.style.color = "#aaff00";
+  result.innerHTML = `<span class="result-card">🧮 <b>${formatNumber(val)}</b> ${from} = <b>${formatNumber(converted)}</b> ${to}</span>`;
 }
 
 function convertTemperature(val, from, to) {

@@ -16,58 +16,157 @@
   <meta property="og:image" content="https://hangga-hub.github.io/og-unit-converter.png" />
   <meta property="og:url" content="https://hangga-hub.github.io/unit-converter" />
   <meta name="robots" content="index,follow" />
+  <style>
+    .tool-converter-card {
+      max-width: 420px;
+      margin: 2rem auto;
+      background: #18181b;
+      border-radius: 18px;
+      box-shadow: 0 0 32px 4px #00ffe7, 0 0 8px 2px #ff00cc;
+      padding: 2rem 2rem 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      border: 2px solid #00ffe7;
+      position: relative;
+      z-index: 1;
+    }
+    .tool-converter-card h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.7rem;
+      text-align: center;
+      color: #00ffe7;
+      text-shadow: 0 0 8px #00ffe7, 0 0 2px #ff00cc;
+      letter-spacing: 1px;
+    }
+    .tool-converter-card label {
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      color: #ff00cc;
+      text-shadow: 0 0 4px #ff00cc;
+    }
+    .tool-converter-card select,
+    .tool-converter-card input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1.5px solid #00ffe7;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      background: #23232b;
+      color: #fff;
+      box-shadow: 0 0 8px #00ffe7 inset;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .tool-converter-card select:focus,
+    .tool-converter-card input:focus {
+      border: 1.5px solid #ff00cc;
+      box-shadow: 0 0 12px #ff00cc inset;
+    }
+    .result-card, .result-temp {
+      display: block;
+      background: #23232b;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      font-size: 1.25rem;
+      text-align: center;
+      font-weight: 600;
+      color: #00ffe7;
+      box-shadow: 0 0 16px #ff00cc, 0 0 8px #00ffe7;
+      border: 1.5px solid #ff00cc;
+      text-shadow: 0 0 6px #00ffe7, 0 0 2px #ff00cc;
+    }
+    .result-error {
+      color: #ff00cc;
+      font-weight: 700;
+      text-align: center;
+      display: block;
+      margin-top: 0.5rem;
+      text-shadow: 0 0 6px #ff00cc;
+    }
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .share-buttons img {
+      width: 28px;
+      height: 28px;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+      filter: drop-shadow(0 0 6px #00ffe7) drop-shadow(0 0 2px #ff00cc);
+    }
+    .share-buttons img:hover {
+      opacity: 1;
+      filter: drop-shadow(0 0 12px #ff00cc) drop-shadow(0 0 6px #00ffe7);
+    }
+    body {
+      background: linear-gradient(135deg, #18181b 60%, #ff00cc 100%);
+      min-height: 100vh;
+      font-family: 'Orbitron', 'Segoe UI', 'Arial', sans-serif;
+      letter-spacing: 0.5px;
+    }
+    footer {
+      color: #00ffe7 !important;
+      text-shadow: 0 0 6px #ff00cc;
+    }
+  </style>
 </head>
 <body>
   <div id="navbar"></div>
-
-  <section id="ad-space">
-    <p>[Ad – Dev tools, browser extensions, productivity software]</p>
-  </section>
-  
-  <main class="container tool-converter">
-    <h2>📏 Unit Converter</h2>
-
-    <label for="category">Conversion Type</label>
-    <select id="category">
-      <option value="length">📏 Length</option>
-      <option value="weight">⚖️ Weight</option>
-      <option value="temperature">🌡️ Temperature</option>
-      <option value="speed">🧭 Speed</option>
-      <option value="time">🕑 Time</option>
-      <option value="area">📐 Area</option>
-      <option value="volume">🧪 Volume</option>
-    </select>
-
-    <label for="fromUnit">From Unit</label>
-    <select id="fromUnit"></select>
-
-    <label for="toUnit">To Unit</label>
-    <select id="toUnit"></select>
-
-    <label for="inputValue">Value</label>
-    <input type="number" id="inputValue" placeholder="Enter value" />
-
-    <button onclick="convertUnit()">Convert</button>
-
-    <div id="result"></div>
-
-    <div class="share-buttons">
-      <a href="https://x.com/intent/tweet?url=https://hangga-hub.github.io/unit-converter" target="_blank">
-        <img src="https://cdn.simpleicons.org/x/white" alt="Share on X" />
-      </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https://hangga-hub.github.io/unit-converter" target="_blank">
-        <img src="https://cdn.simpleicons.org/facebook/white" alt="Share on Facebook" />
-      </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hangga-hub.github.io/unit-converter" target="_blank">
-        <img src="https://cdn.simpleicons.org/linkedin/white" alt="Share on LinkedIn" />
-      </a>
+  <main>
+    <section id="ad-space" style="text-align:center;margin-bottom:1rem;">
+      <p style="font-size:0.95rem;color:#888;">[Ad – Dev tools, browser extensions, productivity software]</p>
+    </section>
+    <div class="tool-converter-card">
+      <h2>📏 Unit Converter</h2>
+      <label for="category">Conversion Type</label>
+      <select id="category"></select>
+      <label for="fromUnit">From Unit</label>
+      <select id="fromUnit"></select>
+      <label for="toUnit">To Unit</label>
+      <select id="toUnit"></select>
+      <label for="inputValue">Value</label>
+      <input type="number" id="inputValue" placeholder="Enter value" />
+      <div id="result"></div>
+      <div class="share-buttons">
+        <a href="https://x.com/intent/tweet?url=https://hangga-hub.github.io/unit-converter" target="_blank">
+          <img src="https://cdn.simpleicons.org/x/white" alt="Share on X" />
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hangga-hub.github.io/unit-converter" target="_blank">
+          <img src="https://cdn.simpleicons.org/facebook/white" alt="Share on Facebook" />
+        </a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hangga-hub.github.io/unit-converter" target="_blank">
+          <img src="https://cdn.simpleicons.org/linkedin/white" alt="Share on LinkedIn" />
+        </a>
+      </div>
     </div>
   </main>
-
-  <footer>
+  <footer style="text-align:center;margin-top:2rem;font-size:0.95rem;color:#888;">
     <p>Made with ❤️ by Hangga | <a href="https://github.com/hangga-hub/unit-converter">GitHub</a></p>
   </footer>
-
   <script src="script.js"></script>
+  <script>
+    // Populate category options dynamically for maintainability
+    const categories = [
+      { value: "length", label: "📏 Length" },
+      { value: "weight", label: "⚖️ Weight" },
+      { value: "temperature", label: "🌡️ Temperature" },
+      { value: "speed", label: "🧭 Speed" },
+      { value: "time", label: "🕑 Time" },
+      { value: "area", label: "📐 Area" },
+      { value: "volume", label: "🧪 Volume" }
+    ];
+    const categorySelect = document.getElementById('category');
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat.value;
+      opt.textContent = cat.label;
+      categorySelect.appendChild(opt);
+    });
+  </script>
 </body>
 </html>
