@@ -109,10 +109,9 @@ function updateUnits() {
 
 function formatNumber(num) {
   // Show up to 4 significant digits, no trailing zeros
-  if (Math.abs(num) < 1) {
-    return parseFloat(num.toPrecision(4)).toString();
-  }
-  return parseFloat(num.toFixed(4)).toString();
+  if (num === 0) return "0";
+  // Use Intl.NumberFormat for up to 4 significant digits, no trailing zeros
+  return Number.parseFloat(num.toPrecision(4)).toString();
 }
 
 function convertUnit() {
